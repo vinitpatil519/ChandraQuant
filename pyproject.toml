@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chandraquant"
+version = "0.1.0"
+description = "Graha-Sucana / ChandraQuant market-regime prediction experiment converted from notebook to Python codebase."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pandas",
+    "yfinance",
+    "ta",
+    "matplotlib",
+    "seaborn",
+    "skyfield",
+    "scikit-learn",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
