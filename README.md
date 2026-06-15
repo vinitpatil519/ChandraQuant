@@ -4,6 +4,8 @@
 
 > A Hybrid Astro-Cyclic Machine Learning Framework for Probabilistic Bullish Regime Detection in Indian Equity Indices
 
+![Project Thumbnail](assets/ChandraQuant-Image.png)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
