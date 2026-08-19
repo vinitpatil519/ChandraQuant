@@ -1,4 +1,4 @@
-# ChandraQuant Siddhanta
+# ChandraQuant Siddhanta - my best work
 
 ### *Where the Cosmic Cycle Meets Quantitative Precision*
 
