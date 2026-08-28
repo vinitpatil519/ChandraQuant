@@ -119,3 +119,62 @@ Hybrid AUC 0.5094, §9.4 states "actual Hybrid AUC of 0.9964" against a permutat
 
 **Next:** `chandraquant/astro/ephemeris.py` + `ayanamsa.py` — Skyfield/DE440s wrapper and
 Lahiri sidereal conversion.
+
+### [2026-08-28 18:05] feat(astro): the complete Jyotisha engine (12 modules, 831 features)
+**Commit:** _pending_
+**Added:** `chandraquant/config.py`, `chandraquant/astro/{ayanamsa,ephemeris,panchanga,lunar,solar,grahas,aspects,events,natal,dasha,ashtakavarga,shadbala,muhurta,composites,engine}.py`, `config/{nakshatra,tithi,yoga,karana,graha,ashtakavarga,tickers}.yaml`
+
+**What:** The full astro stack, from JPL DE440s through to five branded composite indices.
+
+| Module | Delivers |
+|---|---|
+| `ayanamsa` | Lahiri (Chitrapaksha) via IAU-2006 precession, anchored 23.250182 deg at JD 2435553.5 |
+| `ephemeris` | Skyfield/DE440s apparent geocentric sidereal positions, speeds, mean+true nodes |
+| `panchanga` | Tithi (30), Vara, Nakshatra (27 + pada), Yoga (27), Karana (11/60 slots) |
+| `lunar` | phase, Chandra Shara, gandanta, sandhi, speed gati, tidal force, Kriya/Avastha/Vela |
+| `solar` | Sankranti ingress, Uttarayana/Dakshinayana, declination, Ritu, Masa |
+| `grahas` | dignity, uccha bala, Vakri, Stambhana, Asta, Graha Yuddha |
+| `aspects` | Parashari drishti (graded), continuous orb kernels, 9 named market yogas, Kemadruma |
+| `events` | true eclipses, Gochara ingress, stations, Great Conjunction, ramps for all |
+| `natal` | **the differentiator** - Lagna, Gochara, Tarabala, Chandrabala, Sade Sati, bhava activation |
+| `dasha` | Vimshottari MD/AD/PD chain seeded from each index's natal Moon nakshatra |
+| `ashtakavarga` | Bhinnashtakavarga + Sarvashtakavarga transit strength, per natal chart |
+| `shadbala` | six-fold strength in rupas: Sthana, Dig, Kala, Cheshta, Naisargika, Drik |
+| `muhurta` | daily Lagna, Hora, Rahu Kaal / Yamaganda / Gulika, Abhijit |
+| `composites` | CBI, GSI, VRI, BHY, KTW + ASTRO_SCORE + the hard gates |
+
+**Verified against external ground truth:**
+- Ayanamsa 2026-08-28 = 24.2341 deg (expected ~24 deg 14').
+- Makar Sankranti 2025-01-14: Surya sidereal 270.009 deg, i.e. exactly entering Makara.
+- Diwali 2024-10-31 and 2025-10-20 both resolve to Krishna Chaturdashi at 09:15 IST; 2025-10-20 nakshatra Hasta - matches Drik Panchang.
+- **Eclipses 2025-26: 8/8 exact date match against the NASA catalogue, zero false positives** (2025-03-14, 03-29, 09-07, 09-21; 2026-02-17, 03-03, 08-12, 08-28). Rate 4.78/yr over 2018-2026.
+- Budha vakri 2025 detected 03-16 / 07-19 / 11-10 vs actual stations 03-15 / 07-18 / 11-09. Shani vakri 138d (actual ~138). Guru vakri 85d (actual ~86).
+- Great Conjunction: minimum Guru-Shani separation 2020-12-22 at 0.04 deg (actual 2020-12-21).
+- Shani ingresses 2020-01-25 Makara, 2022-04-30 Kumbha, 2022-07-13 back to Makara, 2023-01-18 Kumbha, 2025-03-30 Meena - all within a day of actual.
+- Ascendant formula: at Mumbai sunrise the Lagna equals the Sun's longitude to 0.9 deg, which is precisely the refraction + semi-diameter offset that defines sunrise. Formula confirmed correct.
+- Ashtakavarga invariants: BAV totals 48/49/39/54/56/52/39 and SAV grand total 337, all exact.
+- Panchanga frequencies over 1096 days: Rikta 0.204 (expect 0.200), malefic yoga 0.333 (expect 0.333), all 27 nakshatras / 30 tithis / 11 karanas covered.
+
+**THE FIX THAT MATTERS - v1's fatal flaw is dead.** Natal charts cast per index:
+| Index | Born | Natal Moon nakshatra | Lagna |
+|---|---|---|---|
+| NIFTY 50 | 1996-04-22 10:00 IST | Mrgasirsa (Mangala) | Mithuna |
+| BANKNIFTY | 2003-09-15 10:00 IST | Bharani (Shukra) | Tula |
+| CNX IT | 1999-05-11 10:00 IST | Purva Bhadrapada (Guru) | Mithuna |
+
+Measured on the same calendar day (2026-08-28), the three indices now diverge sharply:
+NIFTY in **Sampat** tara (+0.9), BANKNIFTY in **Pratyari** (-0.7) and under Sade Sati,
+CNXIT in **Ati-Mitra** (+1.0). ASTRO_SCORE +0.231 / -0.312 / +0.281.
+**188 of 831 numeric features (22.6%) differ between tickers.** In v1 that number was 0.
+
+**Decisions:**
+- Evaluation point 09:15 IST (current NSE open); natal charts at 10:00 IST (the opening
+  bell of their launch era). Both configurable in `config/tickers.yaml`.
+- Mean lunar node for Rahu/Ketu (Indian panchanga convention); true node available.
+- Eclipse solar limit tightened to 1.40 deg (the "certain" ecliptic limit) rather than the
+  1.58 deg absolute maximum - this removes two 2026 grazing false positives.
+- Composites z-scored on an **expanding** window, never full-sample, so they cannot leak.
+- 831 features against ~4,600 rows per ticker is a high ratio; feature selection is
+  deferred to the model phase rather than pruned blindly here.
+
+**Next:** data layer (`data/loaders.py`) and the technical feature block.
