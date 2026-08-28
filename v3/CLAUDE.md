@@ -326,3 +326,51 @@ result.
    0.9964. v3 produces one reproducible number (0.5143 on NIFTY).
 
 **Status: complete.** All 12 planned phases delivered.
+
+---
+
+### [2026-08-28 23:45] release: GitHub publication, SETUP.md, preparation.md
+**Commits:** `3ad7bd1`, `2e9d4fb`, `594c8a1` (pushed as `d4e3152..594c8a1`)
+**Added:** `SETUP.md`, `preparation.md`; trimmed `pyproject.toml`; shipped `artifacts/models/`
+
+**Published to** https://github.com/vinitpatil519/ChandraQuant **under `v3/`**, alongside the
+existing v1 research at the repository root. All 9 build commits preserved via a
+`filter-branch` path rewrite rather than squashed, so the history reads as the project
+being built. Root README gained a banner pointing at v3.
+
+**Dependency audit.** `textual`, `typer`, `scipy`, `shap`, `matplotlib`, `plotly`,
+`statsmodels`, `tabulate`, `fastapi` and `uvicorn` were all declared and never imported -
+the browser dashboard runs on stdlib `http.server` with inline SVG. Removed. Install is
+now 12 packages instead of 22.
+
+**Four defects found by installing the published repo from scratch and running it as a
+stranger would.** None were visible from inside the development environment:
+
+1. **Fresh clones trained models on first launch.** `artifacts/models/` was gitignored as
+   "large" - they are 2 MB each. Now committed; first render drops from minutes to seconds.
+2. **The root `.gitignore` silently swallowed them anyway.** v1's ignore file carries broad
+   `models/` and `data/` rules that also match `v3/artifacts/models/` and
+   `v3/data/snapshot/`. Git will not descend into an excluded directory, so a nested
+   `.gitignore` cannot re-include them - the negations had to go at the root. The first
+   push landed without the models and I only caught it by counting files afterwards.
+3. **The 32 MB ephemeris downloaded in total silence** (`Loader(verbose=False)`), so the
+   very first run looked hung. Now announced, with a progress bar.
+4. **A truncated ephemeris bricked the install permanently.** The verification run's
+   download was interrupted at 15.5 MB; Skyfield finalised the partial file and reused it
+   forever, failing with jplephem's opaque `buffer is too small for requested array`.
+   `_kernel()` now validates size before loading, deletes anything materially under ~31 MB
+   as a partial download and re-fetches, and wraps the load so residual failures explain
+   themselves.
+
+**Forward-compatibility verified.** A clean virtualenv resolves **pandas 3.0.5 / numpy
+2.5.2** - both newer than the 2.3.3 / 2.3.x developed against - and all 60 tests pass, as
+does the dashboard. Worth knowing, since anyone installing today gets pandas 3.
+
+**Final end-to-end check:** fresh `git clone` from GitHub, `pip install -e .`,
+`chandraquant --ticker NIFTY --no-refresh` renders the full dashboard in **9 seconds**,
+offline, with the header correctly reporting `o snapshot` rather than claiming live data.
+
+**Note for future work.** The local checkout at `C:\ChandraQuant` keeps files at its root
+while GitHub has them under `v3/`, so a direct push from it would collide with v1. The
+canonical working copy going forward is a clone of the repository, working in
+`ChandraQuant/v3/` - which is exactly what SETUP.md instructs.
