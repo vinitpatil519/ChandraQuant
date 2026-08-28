@@ -1,0 +1,21 @@
+start: '2010-01-01'
+cost_bps: 5.0
+tickers:
+  NIFTY:
+    target_vol: 0.2
+    leverage_cap: 3.5
+    trend_span: 50
+    vol_window: 20
+    smooth_days: 1
+  BANKNIFTY:
+    target_vol: 0.2
+    leverage_cap: 3.5
+    trend_span: 50
+    vol_window: 20
+    smooth_days: 1
+  CNXIT:
+    target_vol: 0.25
+    leverage_cap: 3.5
+    trend_span: 200
+    vol_window: 15
+    smooth_days: 1
