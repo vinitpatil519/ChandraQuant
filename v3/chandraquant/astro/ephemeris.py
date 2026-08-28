@@ -27,6 +27,12 @@ from . import ayanamsa as ay
 
 EPHEM_FILE = "de440s.bsp"
 
+# A complete de440s.bsp is ~31.2 MB. If the download is interrupted, Skyfield finalises
+# whatever arrived, then reuses that truncated file forever - and jplephem fails on it
+# with "buffer is too small for requested array", which tells the user nothing. Anything
+# materially under the real size is treated as a partial download and re-fetched.
+MIN_EPHEM_BYTES = 25_000_000
+
 # Vedic name -> DE440s target. Barycentres are used for the outer planets, which is
 # standard practice and well inside a milli-degree for our purposes.
 GRAHA_TARGETS = {
@@ -67,6 +73,23 @@ def _kernel():
     the worst possible first impression. Announce it, and show Skyfield's progress bar.
     """
     path = EPHEM_DIR / EPHEM_FILE
+
+    # Self-heal a partial download rather than failing on it every run afterwards.
+    if path.exists() and path.stat().st_size < MIN_EPHEM_BYTES:
+        size_mb = path.stat().st_size / 1_048_576
+        print(
+            f"\n  {EPHEM_FILE} is only {size_mb:.1f} MB - an interrupted download.\n"
+            f"  Removing it and fetching again.\n",
+            file=sys.stderr,
+        )
+        try:
+            path.unlink()
+        except OSError as exc:
+            raise RuntimeError(
+                f"Found a truncated ephemeris at {path} ({size_mb:.1f} MB, expected ~31 MB) "
+                f"and could not delete it: {exc}. Delete the file manually and re-run."
+            ) from exc
+
     if not path.exists():
         print(
             f"\n  First run: downloading the NASA JPL {EPHEM_FILE} ephemeris (~32 MB).\n"
@@ -74,7 +97,15 @@ def _kernel():
             file=sys.stderr,
         )
         return Loader(str(EPHEM_DIR), verbose=True)(EPHEM_FILE)
-    return _loader()(EPHEM_FILE)
+
+    try:
+        return _loader()(EPHEM_FILE)
+    except Exception as exc:
+        raise RuntimeError(
+            f"Could not read the ephemeris at {path}. It is most likely corrupt or "
+            f"incomplete. Delete it and re-run `python scripts/refresh_data.py --all` "
+            f"to fetch a fresh copy. Underlying error: {exc}"
+        ) from exc
 
 
 @functools.lru_cache(maxsize=1)

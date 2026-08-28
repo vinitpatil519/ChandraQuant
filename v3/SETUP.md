@@ -235,6 +235,15 @@ brew install libomp
 You are on a Python version without prebuilt wheels. Use Python 3.11 or 3.12, or install
 build tools: `sudo apt install build-essential python3-dev`.
 
+**`buffer is too small for requested array`, or `Could not read the ephemeris`.**
+The 32 MB ephemeris download was interrupted, leaving a truncated file. ChandraQuant now
+detects this and re-downloads automatically, but if it persists, delete it by hand and
+re-run:
+```bash
+rm data/ephem/de440s.bsp        # Windows: del data\ephem\de440s.bsp
+python scripts/refresh_data.py --all
+```
+
 **First run is slow.**
 Expected. It computes 831 astronomical features per trading day across ~4,650 days per
 ticker. Everything is cached in `data/cache/`; subsequent runs take a few seconds.
