@@ -1,0 +1,80 @@
+# The three indices ChandraQuant covers, with their mundane natal (foundation) charts.
+#
+# WHY NATAL CHARTS MATTER: ChandraQuant v1 used astro features that were functions of
+# calendar date alone, so every ticker saw an identical astro vector on a given day and
+# the astro block could not discriminate between indices at all. Casting a chart per
+# index and expressing every celestial quantity as a transit RELATIVE to that chart is
+# what makes the astro layer ticker-specific - and unlocks Vimshottari Dasha, Sade Sati,
+# Tarabala, Chandrabala, Ashtakavarga and Gochara through natal bhavas.
+#
+# natal_source: which chart to cast - "launch" (the day the index began publishing) or
+# "base" (the index's base-value reference date). Launch is the default: it is the
+# moment the instrument entered the world and began trading.
+#
+# TIME: natal charts use the NSE opening bell in force on the launch date (10:00 IST
+# through 2009). Daily transits are evaluated at 09:15 IST, the current opening bell.
+#
+# VERIFY: inception dates are from NSE index factsheets and should be re-confirmed
+# against niftyindices.com before publication. Changing them changes every natal-relative
+# feature, so the chart used is recorded in artifacts/metrics.json alongside results.
+
+defaults:
+  latitude: 18.9388        # Mumbai - Bombay Stock Exchange / NSE
+  longitude: 72.8354
+  timezone: "Asia/Kolkata"
+  natal_time: "10:00"      # NSE opening bell in the launch era
+  transit_time: "09:15"    # current NSE opening bell - daily evaluation point
+  natal_source: launch
+
+tickers:
+  - key: NIFTY
+    name: "NIFTY 50"
+    display: "NIFTY 50"
+    yahoo: "^NSEI"
+    stooq: "^nsei"
+    devanagari: "निफ्टी ५०"
+    colour: "#22d3ee"
+    natal:
+      launch: "1996-04-22"
+      base: "1995-11-03"
+    sector_note: "broad market - the benchmark for Indian large-cap equity"
+
+  - key: BANKNIFTY
+    name: "NIFTY BANK"
+    display: "BANKNIFTY"
+    yahoo: "^NSEBANK"
+    stooq: "^nsebank"
+    devanagari: "बैंक निफ्टी"
+    colour: "#f59e0b"
+    natal:
+      launch: "2003-09-15"
+      base: "2000-01-01"
+    sector_note: "banking and financials - the highest-beta major Indian index"
+
+  - key: CNXIT
+    name: "NIFTY IT"
+    display: "CNX IT"
+    yahoo: "^CNXIT"
+    stooq: "^cnxit"
+    devanagari: "सीएनएक्स आईटी"
+    colour: "#a78bfa"
+    natal:
+      launch: "1999-05-11"
+      base: "1996-01-01"
+    sector_note: "information technology - export-led, USD-sensitive, Budha-ruled"
+
+# Crisis windows used by validate/crisis.py
+crisis_windows:
+  - {key: GFC,        label: "Global Financial Crisis", start: "2008-09-01", end: "2009-03-31"}
+  - {key: COVID,      label: "COVID-19 Crash",          start: "2020-02-01", end: "2020-06-30"}
+  - {key: UKRAINE,    label: "Russia-Ukraine Shock",    start: "2022-02-01", end: "2022-06-30"}
+  - {key: IRAN2025,   label: "Iran-US/Israel Escalation", start: "2025-06-01", end: "2025-07-31"}
+  - {key: FEB2026,    label: "Feb 2026 Volatility",     start: "2026-02-01", end: "2026-03-31"}
+
+# Data span. Yahoo serves these three indices only from 2007-09-17; the backfill module
+# attempts an extension to 1996 via Stooq / NSE CSVs. No document may claim a 1996 start
+# unless data/snapshot actually contains those bars.
+data:
+  yahoo_known_start: "2007-09-17"
+  backfill_target_start: "1996-01-01"
+  splice_date: "2007-09-17"

@@ -1,0 +1,36 @@
+# 27 Nitya Yogas.
+#   yoga_index = floor( ((sun_long + moon_long) mod 360) / (360/27) )  -> 0..26
+# The nine classical inauspicious yogas (malefic: true) are the ones muhurta
+# texts bar for new undertakings. They are the strongest single-flag risk
+# markers in the panchanga and feed directly into the Bhaya (panic) composite.
+
+yogas:
+  - {index: 0,  name: Vishkambha, display: "Vishkambha", malefic: true,  meaning: "supported but obstructed - progress meets resistance",  market_bias: -0.35}
+  - {index: 1,  name: Priti,      display: "Priti",      malefic: false, meaning: "affection - cooperative, pleasant conditions",          market_bias:  0.45}
+  - {index: 2,  name: Ayushman,   display: "Ayushman",   malefic: false, meaning: "long life - durability and staying power",              market_bias:  0.50}
+  - {index: 3,  name: Saubhagya,  display: "Saubhagya",  malefic: false, meaning: "good fortune - favourable for wealth",                  market_bias:  0.55}
+  - {index: 4,  name: Shobhana,   display: "Shobhana",   malefic: false, meaning: "splendour - attractive, draws participation",           market_bias:  0.50}
+  - {index: 5,  name: Atiganda,   display: "Atiganda",   malefic: true,  meaning: "great danger - accident-prone, avoid new risk",         market_bias: -0.65}
+  - {index: 6,  name: Sukarma,    display: "Sukarma",    malefic: false, meaning: "good deeds - productive execution",                     market_bias:  0.50}
+  - {index: 7,  name: Dhriti,     display: "Dhriti",     malefic: false, meaning: "steadiness - patient holding favoured",                 market_bias:  0.40}
+  - {index: 8,  name: Shula,      display: "Shula",      malefic: true,  meaning: "the spear - piercing, sharp adverse moves",             market_bias: -0.60}
+  - {index: 9,  name: Ganda,      display: "Ganda",      malefic: true,  meaning: "the knot - blockage and entanglement",                  market_bias: -0.55}
+  - {index: 10, name: Vriddhi,    display: "Vriddhi",    malefic: false, meaning: "growth - expansion, the most bullish yoga",             market_bias:  0.70}
+  - {index: 11, name: Dhruva,     display: "Dhruva",     malefic: false, meaning: "fixed - stable, trend-persistent",                      market_bias:  0.55}
+  - {index: 12, name: Vyaghata,   display: "Vyaghata",   malefic: true,  meaning: "the blow - sudden strike, violent reversal",            market_bias: -0.70}
+  - {index: 13, name: Harshana,   display: "Harshana",   malefic: false, meaning: "delight - optimism and risk appetite",                  market_bias:  0.50}
+  - {index: 14, name: Vajra,      display: "Vajra",      malefic: true,  meaning: "the thunderbolt - abrupt and unforgiving",              market_bias: -0.60}
+  - {index: 15, name: Siddhi,     display: "Siddhi",     malefic: false, meaning: "accomplishment - objectives are met",                   market_bias:  0.65}
+  - {index: 16, name: Vyatipata,  display: "Vyatipata",  malefic: true,  meaning: "calamity - the most adverse yoga, systemic risk",       market_bias: -0.85}
+  - {index: 17, name: Variyana,   display: "Variyana",   malefic: false, meaning: "comfort - easy, low-friction conditions",               market_bias:  0.45}
+  - {index: 18, name: Parigha,    display: "Parigha",    malefic: true,  meaning: "the iron bar - hard obstruction, capped advance",       market_bias: -0.55}
+  - {index: 19, name: Shiva,      display: "Shiva",      malefic: false, meaning: "auspicious - benevolent and protective",                market_bias:  0.60}
+  - {index: 20, name: Siddha,     display: "Siddha",     malefic: false, meaning: "perfected - reliable follow-through",                   market_bias:  0.60}
+  - {index: 21, name: Sadhya,     display: "Sadhya",     malefic: false, meaning: "achievable - goals within reach",                       market_bias:  0.50}
+  - {index: 22, name: Shubha,     display: "Shubha",     malefic: false, meaning: "auspicious - broadly favourable",                       market_bias:  0.60}
+  - {index: 23, name: Shukla,     display: "Shukla",     malefic: false, meaning: "bright - clarity and visibility",                       market_bias:  0.40}
+  - {index: 24, name: Brahma,     display: "Brahma",     malefic: false, meaning: "creative - foundational new structure",                 market_bias:  0.65}
+  - {index: 25, name: Indra,      display: "Indra",      malefic: false, meaning: "sovereign - leadership and dominance",                  market_bias:  0.60}
+  - {index: 26, name: Vaidhriti,  display: "Vaidhriti",  malefic: true,  meaning: "separation - rupture and divergence",                   market_bias: -0.75}
+
+malefic_indices: [0, 5, 8, 9, 12, 14, 16, 18, 26]

@@ -1,0 +1,322 @@
+# 27 Nakshatras (lunar mansions) - each spans 13 deg 20 min of the sidereal zodiac.
+# index: 0-based (0 = Ashwini, starting at 0 deg sidereal Mesha)
+# lord:  Vimshottari dasha lord (cycle: Ketu Shukra Surya Chandra Mangala Rahu Guru Shani Budha)
+# gana:  Deva (benevolent) / Manushya (human-neutral) / Rakshasa (obstructive)
+# activity: classical karma-classification, mapped to market character
+#   chara   = movable -> trending / directional
+#   sthira  = fixed   -> range-bound / accumulation
+#   ugra    = fierce  -> volatility expansion, destructive moves
+#   mridu   = tender  -> gentle drift, low realised vol
+#   kshipra = swift   -> fast resolution, quick reversals
+#   tikshna = sharp   -> sharp spikes, stop-hunts
+#   mishra  = mixed   -> whipsaw / indecision
+# market_bias: prior in [-1, 1], used as a weak feature and for narrative colour
+# archetype: one-line market reading consumed verbatim by the narrative engine
+
+nakshatras:
+  - index: 0
+    name: Ashwini
+    display: "Asvini"
+    lord: Ketu
+    deity: "Ashwini Kumaras"
+    symbol: "Horse head"
+    gana: Deva
+    activity: kshipra
+    market_bias: 0.35
+    archetype: "swift initiation - fresh momentum lifting off a base"
+  - index: 1
+    name: Bharani
+    display: "Bharani"
+    lord: Shukra
+    deity: Yama
+    symbol: "Yoni"
+    gana: Manushya
+    activity: ugra
+    market_bias: -0.30
+    archetype: "forced transformation - capitulation and transfer of ownership"
+  - index: 2
+    name: Krittika
+    display: "Krttika"
+    lord: Surya
+    deity: Agni
+    symbol: "Razor and flame"
+    gana: Rakshasa
+    activity: mishra
+    market_bias: -0.10
+    archetype: "the cutting edge - sharp two-sided churn"
+  - index: 3
+    name: Rohini
+    display: "Rohini"
+    lord: Chandra
+    deity: Prajapati
+    symbol: "Ox cart"
+    gana: Manushya
+    activity: sthira
+    market_bias: 0.55
+    archetype: "wealth accumulation - the classical growth nakshatra"
+  - index: 4
+    name: Mrigashira
+    display: "Mrgasirsa"
+    lord: Mangala
+    deity: Soma
+    symbol: "Deer head"
+    gana: Deva
+    activity: mridu
+    market_bias: 0.20
+    archetype: "the search - probing, low-conviction drift"
+  - index: 5
+    name: Ardra
+    display: "Ardra"
+    lord: Rahu
+    deity: Rudra
+    symbol: "Teardrop"
+    gana: Manushya
+    activity: tikshna
+    market_bias: -0.45
+    archetype: "the storm - shakeout, stop-hunt, emotional flush"
+  - index: 6
+    name: Punarvasu
+    display: "Punarvasu"
+    lord: Guru
+    deity: Aditi
+    symbol: "Quiver of arrows"
+    gana: Deva
+    activity: chara
+    market_bias: 0.45
+    archetype: "return of the light - recovery after decline"
+  - index: 7
+    name: Pushya
+    display: "Pusya"
+    lord: Shani
+    deity: Brihaspati
+    symbol: "Cow udder"
+    gana: Deva
+    activity: kshipra
+    market_bias: 0.60
+    archetype: "the nourisher - Bazaar Shakti, sustained marketplace vitality"
+  - index: 8
+    name: Ashlesha
+    display: "Aslesa"
+    lord: Budha
+    deity: Nagas
+    symbol: "Coiled serpent"
+    gana: Rakshasa
+    activity: tikshna
+    market_bias: -0.50
+    archetype: "the coil - deception, false breakouts, liquidity traps"
+  - index: 9
+    name: Magha
+    display: "Magha"
+    lord: Ketu
+    deity: Pitris
+    symbol: "Royal throne"
+    gana: Rakshasa
+    activity: ugra
+    market_bias: 0.30
+    archetype: "the throne - institutional authority asserts a level"
+  - index: 10
+    name: PurvaPhalguni
+    display: "Purva Phalguni"
+    lord: Shukra
+    deity: Bhaga
+    symbol: "Front of a bed"
+    gana: Manushya
+    activity: ugra
+    market_bias: 0.15
+    archetype: "indulgence - complacent grind higher on thin conviction"
+  - index: 11
+    name: UttaraPhalguni
+    display: "Uttara Phalguni"
+    lord: Surya
+    deity: Aryaman
+    symbol: "Back of a bed"
+    gana: Manushya
+    activity: sthira
+    market_bias: 0.40
+    archetype: "the contract - sovereign and institutional commitment"
+  - index: 12
+    name: Hasta
+    display: "Hasta"
+    lord: Chandra
+    deity: Savitar
+    symbol: "Open hand"
+    gana: Deva
+    activity: kshipra
+    market_bias: 0.50
+    archetype: "the hand - craftsmanship, negotiation, clean execution"
+  - index: 13
+    name: Chitra
+    display: "Citra"
+    lord: Mangala
+    deity: Tvashtar
+    symbol: "Bright jewel"
+    gana: Rakshasa
+    activity: mridu
+    market_bias: 0.25
+    archetype: "the artisan - constructed rallies, engineered levels"
+  - index: 14
+    name: Swati
+    display: "Svati"
+    lord: Rahu
+    deity: Vayu
+    symbol: "Young shoot in wind"
+    gana: Deva
+    activity: chara
+    market_bias: 0.20
+    archetype: "the wind - independent, trending but easily reversed"
+  - index: 15
+    name: Vishakha
+    display: "Visakha"
+    lord: Guru
+    deity: "Indra-Agni"
+    symbol: "Triumphal arch"
+    gana: Rakshasa
+    activity: mishra
+    market_bias: 0.55
+    archetype: "the goal - determined push toward a target"
+  - index: 16
+    name: Anuradha
+    display: "Anuradha"
+    lord: Shani
+    deity: Mitra
+    symbol: "Lotus"
+    gana: Deva
+    activity: mridu
+    market_bias: 0.40
+    archetype: "friendship - cooperative, broad-based participation"
+  - index: 17
+    name: Jyeshtha
+    display: "Jyestha"
+    lord: Budha
+    deity: Indra
+    symbol: "Circular amulet"
+    gana: Rakshasa
+    activity: tikshna
+    market_bias: -0.35
+    archetype: "the elder - dominance contested, sharp defensive reversals"
+  - index: 18
+    name: Mula
+    display: "Mula"
+    lord: Ketu
+    deity: Nirriti
+    symbol: "Bunch of roots"
+    gana: Rakshasa
+    activity: tikshna
+    market_bias: -0.55
+    archetype: "the root - foundations torn out, structural breakdown"
+  - index: 19
+    name: PurvaAshadha
+    display: "Purva Asadha"
+    lord: Shukra
+    deity: Apas
+    symbol: "Winnowing basket"
+    gana: Manushya
+    activity: ugra
+    market_bias: 0.30
+    archetype: "invincibility - stubborn one-way flows"
+  - index: 20
+    name: UttaraAshadha
+    display: "Uttara Asadha"
+    lord: Surya
+    deity: Vishvadevas
+    symbol: "Elephant tusk"
+    gana: Manushya
+    activity: sthira
+    market_bias: 0.50
+    archetype: "final victory - durable institutional trend"
+  - index: 21
+    name: Shravana
+    display: "Sravana"
+    lord: Chandra
+    deity: Vishnu
+    symbol: "Ear and three steps"
+    gana: Deva
+    activity: chara
+    market_bias: 0.35
+    archetype: "listening - news-driven, information-sensitive tape"
+  - index: 22
+    name: Dhanishta
+    display: "Dhanistha"
+    lord: Mangala
+    deity: Vasus
+    symbol: "Drum"
+    gana: Rakshasa
+    activity: chara
+    market_bias: 0.45
+    archetype: "the drum - rhythmic wealth, momentum with cadence"
+  - index: 23
+    name: Shatabhisha
+    display: "Satabhisaj"
+    lord: Rahu
+    deity: Varuna
+    symbol: "Empty circle"
+    gana: Rakshasa
+    activity: chara
+    market_bias: -0.20
+    archetype: "the hundred healers - hidden causes, opaque price action"
+  - index: 24
+    name: PurvaBhadrapada
+    display: "Purva Bhadrapada"
+    lord: Guru
+    deity: "Aja Ekapada"
+    symbol: "Front of a funeral cot"
+    gana: Manushya
+    activity: ugra
+    market_bias: -0.40
+    archetype: "the scorching - extremes, blow-off and panic"
+  - index: 25
+    name: UttaraBhadrapada
+    display: "Uttara Bhadrapada"
+    lord: Shani
+    deity: "Ahir Budhnya"
+    symbol: "Back of a funeral cot"
+    gana: Manushya
+    activity: sthira
+    market_bias: 0.35
+    archetype: "the deep - quiet accumulation beneath the surface"
+  - index: 26
+    name: Revati
+    display: "Revati"
+    lord: Budha
+    deity: Pushan
+    symbol: "Fish and drum"
+    gana: Deva
+    activity: mridu
+    market_bias: 0.30
+    archetype: "safe passage - orderly completion of a cycle"
+
+# Gandanta: the karmic knots at water-fire sign junctions. Last 3d20m of a water sign
+# and first 3d20m of the following fire sign. Classical markers of structural instability.
+gandanta_junctions:
+  - {from_nak: Revati,   to_nak: Ashwini, note: "Meena to Mesha"}
+  - {from_nak: Ashlesha, to_nak: Magha,   note: "Karka to Simha"}
+  - {from_nak: Jyeshtha, to_nak: Mula,    note: "Vrischika to Dhanu"}
+gandanta_orb_deg: 3.3333333
+
+# Vimshottari dasha: the 120-year cycle
+vimshottari:
+  order: [Ketu, Shukra, Surya, Chandra, Mangala, Rahu, Guru, Shani, Budha]
+  years:
+    Ketu: 7
+    Shukra: 20
+    Surya: 6
+    Chandra: 10
+    Mangala: 7
+    Rahu: 18
+    Guru: 16
+    Shani: 19
+    Budha: 17
+  total_years: 120
+
+# Tarabala: the 9 taras counted from the natal Moon nakshatra.
+# quality in [-1, 1] - classical auspiciousness, used directly as a feature.
+tarabala:
+  - {index: 1, name: Janma,    display: "Janma",     meaning: "birth star - self-referential, vulnerable", quality: -0.4}
+  - {index: 2, name: Sampat,   display: "Sampat",    meaning: "wealth - gain and prosperity",              quality: 0.9}
+  - {index: 3, name: Vipat,    display: "Vipat",     meaning: "danger - loss and accident",                quality: -0.9}
+  - {index: 4, name: Kshema,   display: "Ksema",     meaning: "well-being - safety and consolidation",     quality: 0.7}
+  - {index: 5, name: Pratyari, display: "Pratyari",  meaning: "obstacle - active opposition",              quality: -0.7}
+  - {index: 6, name: Sadhaka,  display: "Sadhaka",   meaning: "accomplishment - goals realised",           quality: 0.8}
+  - {index: 7, name: Vadha,    display: "Vadha",     meaning: "destruction - the most adverse tara",       quality: -1.0}
+  - {index: 8, name: Mitra,    display: "Mitra",     meaning: "friend - supportive conditions",            quality: 0.6}
+  - {index: 9, name: AtiMitra, display: "Ati-Mitra", meaning: "great friend - strongest support",          quality: 1.0}

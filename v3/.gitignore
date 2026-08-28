@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Ephemeris kernels (large binaries, re-downloaded on demand)
+data/ephem/*.bsp
+data/ephem/*.bpc
+
+# Raw pulls are reproducible; snapshot IS committed as the offline fallback
+data/raw/
+data/cache/
+
+# Trained models are large; metrics.json IS committed
+artifacts/models/
+artifacts/figures/*.png
+artifacts/figures/*.html
+
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
+Thumbs.db
