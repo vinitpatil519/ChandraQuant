@@ -1,0 +1,33 @@
+# Karana - half of a tithi (6 deg of elongation). 60 karanas per lunar month.
+#   karana_slot = floor( ((moon_long - sun_long) mod 360) / 6 )  -> 0..59
+#
+# Sequence rule (Surya Siddhanta):
+#   slot 0        -> Kimstughna            (fixed)
+#   slots 1..56   -> the 7 chara karanas repeating 8 times
+#                    (slot-1) mod 7 -> Bava Balava Kaulava Taitila Gara Vanija Vishti
+#   slot 57       -> Shakuni              (fixed)
+#   slot 58       -> Chatushpada          (fixed)
+#   slot 59       -> Naga                 (fixed)
+#
+# VISHTI (also called Bhadra) is the classical "transact nothing" window. Muhurta
+# texts bar every auspicious undertaking during Vishti. It recurs roughly every
+# 3.7 days and is used as a HARD GATE in the trading model: no new long entries.
+
+karanas:
+  - {index: 0,  name: Bava,        display: "Bava",        type: chara,  vishti: false, meaning: "the lion - forward drive, favourable for initiation",   market_bias:  0.45}
+  - {index: 1,  name: Balava,      display: "Balava",      type: chara,  vishti: false, meaning: "the tiger - strength applied, good for accumulation",   market_bias:  0.40}
+  - {index: 2,  name: Kaulava,     display: "Kaulava",     type: chara,  vishti: false, meaning: "the boar - social, cooperative, broad participation",   market_bias:  0.35}
+  - {index: 3,  name: Taitila,     display: "Taitila",     type: chara,  vishti: false, meaning: "the donkey - patient labour, slow grinding progress",   market_bias:  0.20}
+  - {index: 4,  name: Gara,        display: "Gara",        type: chara,  vishti: false, meaning: "the elephant - heavy, cultivation and holding",         market_bias:  0.25}
+  - {index: 5,  name: Vanija,      display: "Vanija",      type: chara,  vishti: false, meaning: "the merchant - the trade karana, commerce favoured",    market_bias:  0.55}
+  - {index: 6,  name: Vishti,      display: "Vishti (Bhadra)", type: chara, vishti: true, meaning: "Bhadra - the classical no-transaction window",        market_bias: -0.90}
+  - {index: 7,  name: Shakuni,     display: "Shakuni",     type: sthira, vishti: false, meaning: "the bird - watchful, medicinal, cautious",              market_bias: -0.20}
+  - {index: 8,  name: Chatushpada, display: "Chatushpada", type: sthira, vishti: false, meaning: "the quadruped - grounded, ancestral, defensive",        market_bias: -0.10}
+  - {index: 9,  name: Naga,        display: "Naga",        type: sthira, vishti: false, meaning: "the serpent - latent, hidden, cruel undertakings",      market_bias: -0.35}
+  - {index: 10, name: Kimstughna,  display: "Kimstughna",  type: sthira, vishti: false, meaning: "slayer of harm - clears the way for the new month",     market_bias:  0.30}
+
+# Sequence lookup used by astro/panchanga.py
+sequence:
+  fixed_first: Kimstughna
+  chara_cycle: [Bava, Balava, Kaulava, Taitila, Gara, Vanija, Vishti]
+  fixed_last: [Shakuni, Chatushpada, Naga]

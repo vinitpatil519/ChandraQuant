@@ -1,0 +1,71 @@
+{
+  "NIFTY": {
+    "benchmark": {
+      "cagr": 0.0963035613612766,
+      "sharpe": 0.6557938932997771,
+      "max_drawdown": -0.38439852452742107,
+      "calmar": 0.2505305177216069
+    },
+    "strategy": {
+      "cagr": 0.08349101360525002,
+      "sharpe": 0.6602513636341044,
+      "max_drawdown": -0.2156627843618476,
+      "calmar": 0.3871368620798546,
+      "avg_leverage": 1.0257255939456529,
+      "turnover_annual": 17.064245969112264
+    },
+    "params": {
+      "target_vol": 0.2,
+      "leverage_cap": 3.5,
+      "trend_span": 50,
+      "vol_window": 20,
+      "smooth_days": 1
+    }
+  },
+  "BANKNIFTY": {
+    "benchmark": {
+      "cagr": 0.11701700075365373,
+      "sharpe": 0.6121879441143958,
+      "max_drawdown": -0.47855601001995574,
+      "calmar": 0.24452101384908767
+    },
+    "strategy": {
+      "cagr": 0.0850806854796855,
+      "sharpe": 0.6632236915232179,
+      "max_drawdown": -0.22335264053847037,
+      "calmar": 0.3809253621294491,
+      "avg_leverage": 0.768626617267196,
+      "turnover_annual": 12.7448173447662
+    },
+    "params": {
+      "target_vol": 0.2,
+      "leverage_cap": 3.5,
+      "trend_span": 50,
+      "vol_window": 20,
+      "smooth_days": 1
+    }
+  },
+  "CNXIT": {
+    "benchmark": {
+      "cagr": 0.10565774494067925,
+      "sharpe": 0.5868792122935075,
+      "max_drawdown": -0.43973579449550626,
+      "calmar": 0.24027551603320524
+    },
+    "strategy": {
+      "cagr": 0.1571065622884258,
+      "sharpe": 0.6986575574182157,
+      "max_drawdown": -0.4017439119892072,
+      "calmar": 0.391061463783044,
+      "avg_leverage": 1.2034913806700043,
+      "turnover_annual": 21.794773991144346
+    },
+    "params": {
+      "target_vol": 0.25,
+      "leverage_cap": 3.5,
+      "trend_span": 200,
+      "vol_window": 15,
+      "smooth_days": 1
+    }
+  }
+}

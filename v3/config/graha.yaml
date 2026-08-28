@@ -1,0 +1,241 @@
+# The nine Grahas, the twelve Rashis, and the classical rules the astro engine needs:
+# dignity, drishti (aspects), naisargika bala, dig bala, combustion orbs, karakatva.
+
+rashis:
+  - {index: 0,  name: Mesha,     display: "Mesha (Aries)",       lord: Mangala, element: fire,  quality: chara,        gender: male}
+  - {index: 1,  name: Vrishabha, display: "Vrishabha (Taurus)",  lord: Shukra,  element: earth, quality: sthira,       gender: female}
+  - {index: 2,  name: Mithuna,   display: "Mithuna (Gemini)",    lord: Budha,   element: air,   quality: dvisvabhava,  gender: male}
+  - {index: 3,  name: Karka,     display: "Karka (Cancer)",      lord: Chandra, element: water, quality: chara,        gender: female}
+  - {index: 4,  name: Simha,     display: "Simha (Leo)",         lord: Surya,   element: fire,  quality: sthira,       gender: male}
+  - {index: 5,  name: Kanya,     display: "Kanya (Virgo)",       lord: Budha,   element: earth, quality: dvisvabhava,  gender: female}
+  - {index: 6,  name: Tula,      display: "Tula (Libra)",        lord: Shukra,  element: air,   quality: chara,        gender: male}
+  - {index: 7,  name: Vrischika, display: "Vrischika (Scorpio)", lord: Mangala, element: water, quality: sthira,       gender: female}
+  - {index: 8,  name: Dhanu,     display: "Dhanu (Sagittarius)", lord: Guru,    element: fire,  quality: dvisvabhava,  gender: male}
+  - {index: 9,  name: Makara,    display: "Makara (Capricorn)",  lord: Shani,   element: earth, quality: chara,        gender: female}
+  - {index: 10, name: Kumbha,    display: "Kumbha (Aquarius)",   lord: Shani,   element: air,   quality: sthira,       gender: male}
+  - {index: 11, name: Meena,     display: "Meena (Pisces)",      lord: Guru,    element: water, quality: dvisvabhava,  gender: female}
+
+# nature:  benefic / malefic / neutral (Chandra and Budha are conditional; the engine
+#          adjusts Chandra by paksha-bala and Budha by association)
+# naisargika_bala: natural strength in virupas (60 virupas = 1 rupa), Parashari order
+# exalt/debil:     {rashi_index, degree} - deep exaltation point
+# combust_orb_deg: distance from Surya inside which the graha is Asta (combust)
+# mean_speed:      degrees per day, used to normalise Cheshta bala
+skip_shadbala: [Rahu, Ketu]
+
+grahas:
+  - name: Surya
+    display: "Surya (Sun)"
+    symbol: "Su"
+    nature: malefic
+    naisargika_bala: 60.00
+    exalt: {rashi: 0,  degree: 10}
+    debil: {rashi: 6,  degree: 10}
+    own_rashis: [4]
+    moolatrikona: {rashi: 4, from_deg: 0,  to_deg: 20}
+    dig_bala_house: 10
+    combust_orb_deg: null
+    mean_speed: 0.9856
+    karakatva: "soul, government, sovereign authority, policy"
+    market_role: "state and regulatory impulse; index-level authority"
+  - name: Chandra
+    display: "Chandra (Moon)"
+    symbol: "Ch"
+    nature: benefic
+    naisargika_bala: 51.43
+    exalt: {rashi: 1,  degree: 3}
+    debil: {rashi: 7,  degree: 3}
+    own_rashis: [3]
+    moolatrikona: {rashi: 1, from_deg: 4,  to_deg: 30}
+    dig_bala_house: 4
+    combust_orb_deg: 12
+    mean_speed: 13.1764
+    karakatva: "mind, public sentiment, the crowd, liquidity"
+    market_role: "retail sentiment and short-cycle liquidity - the fastest hand"
+  - name: Mangala
+    display: "Mangala (Mars)"
+    symbol: "Ma"
+    nature: malefic
+    naisargika_bala: 17.14
+    exalt: {rashi: 9,  degree: 28}
+    debil: {rashi: 3,  degree: 28}
+    own_rashis: [0, 7]
+    moolatrikona: {rashi: 0, from_deg: 0,  to_deg: 12}
+    dig_bala_house: 10
+    combust_orb_deg: 17
+    mean_speed: 0.5240
+    karakatva: "energy, conflict, courage, aggression"
+    market_role: "volatility expansion, aggressive execution, breakouts and breakdowns"
+  - name: Budha
+    display: "Budha (Mercury)"
+    symbol: "Bu"
+    nature: neutral
+    naisargika_bala: 25.70
+    exalt: {rashi: 5,  degree: 15}
+    debil: {rashi: 11, degree: 15}
+    own_rashis: [2, 5]
+    moolatrikona: {rashi: 5, from_deg: 16, to_deg: 20}
+    dig_bala_house: 1
+    combust_orb_deg: 14
+    combust_orb_retro_deg: 12
+    mean_speed: 1.3833
+    karakatva: "commerce, communication, calculation, intermediation"
+    market_role: "the trade itself - brokerage, settlement, information flow"
+  - name: Guru
+    display: "Guru (Jupiter)"
+    symbol: "Gu"
+    nature: benefic
+    naisargika_bala: 34.28
+    exalt: {rashi: 3,  degree: 5}
+    debil: {rashi: 9,  degree: 5}
+    own_rashis: [8, 11]
+    moolatrikona: {rashi: 8, from_deg: 0,  to_deg: 10}
+    dig_bala_house: 1
+    combust_orb_deg: 11
+    mean_speed: 0.0831
+    karakatva: "expansion, wealth, wisdom, credit"
+    market_role: "the great benefic - credit expansion, multiple re-rating, bull phases"
+  - name: Shukra
+    display: "Shukra (Venus)"
+    symbol: "Sk"
+    nature: benefic
+    naisargika_bala: 42.85
+    exalt: {rashi: 11, degree: 27}
+    debil: {rashi: 5,  degree: 27}
+    own_rashis: [1, 6]
+    moolatrikona: {rashi: 6, from_deg: 0,  to_deg: 15}
+    dig_bala_house: 4
+    combust_orb_deg: 10
+    combust_orb_retro_deg: 8
+    mean_speed: 1.6021
+    karakatva: "luxury, valuation, comfort, desire"
+    market_role: "risk appetite and valuation premium - what buyers will pay up for"
+  - name: Shani
+    display: "Shani (Saturn)"
+    symbol: "Sa"
+    nature: malefic
+    naisargika_bala: 8.57
+    exalt: {rashi: 6,  degree: 20}
+    debil: {rashi: 0,  degree: 20}
+    own_rashis: [9, 10]
+    moolatrikona: {rashi: 10, from_deg: 0, to_deg: 20}
+    dig_bala_house: 7
+    combust_orb_deg: 15
+    mean_speed: 0.0335
+    karakatva: "time, contraction, discipline, delay, sorrow"
+    market_role: "the great malefic - contraction, de-rating, prolonged bear phases"
+  - name: Rahu
+    display: "Rahu (North Node)"
+    symbol: "Ra"
+    nature: malefic
+    naisargika_bala: 0.0
+    exalt: {rashi: 1,  degree: 20}
+    debil: {rashi: 7,  degree: 20}
+    own_rashis: []
+    moolatrikona: null
+    dig_bala_house: null
+    combust_orb_deg: null
+    mean_speed: -0.0529
+    karakatva: "obsession, amplification, foreign influence, illusion"
+    market_role: "leverage and speculation - manias, derivatives, foreign flows"
+  - name: Ketu
+    display: "Ketu (South Node)"
+    symbol: "Ke"
+    nature: malefic
+    naisargika_bala: 0.0
+    exalt: {rashi: 7,  degree: 20}
+    debil: {rashi: 1,  degree: 20}
+    own_rashis: []
+    moolatrikona: null
+    dig_bala_house: null
+    combust_orb_deg: null
+    mean_speed: -0.0529
+    karakatva: "detachment, sudden severance, hidden loss"
+    market_role: "abrupt dislocation - gaps, flash crashes, liquidity vanishing"
+
+# Parashari drishti. Every graha aspects the 7th fully. Graded partial aspects apply
+# to the 3rd/10th (quarter), 5th/9th (half) and 4th/8th (three-quarter). The three
+# special-aspect grahas raise their signature houses to full strength.
+drishti:
+  default:
+    7: 1.00
+    4: 0.75
+    8: 0.75
+    5: 0.50
+    9: 0.50
+    3: 0.25
+    10: 0.25
+  special:
+    Mangala: {4: 1.00, 8: 1.00}
+    Guru:    {5: 1.00, 9: 1.00}
+    Shani:   {3: 1.00, 10: 1.00}
+
+# Continuous orb-decayed angular kernels (used for the Kala-Taranga composite).
+# strength = max(0, 1 - |sep - angle| / orb) ** falloff
+western_aspects:
+  - {name: conjunction, angle: 0,   orb: 8.0, polarity:  1.0}
+  - {name: sextile,     angle: 60,  orb: 5.0, polarity:  0.6}
+  - {name: square,      angle: 90,  orb: 7.0, polarity: -1.0}
+  - {name: trine,       angle: 120, orb: 7.0, polarity:  1.0}
+  - {name: opposition,  angle: 180, orb: 8.0, polarity: -0.9}
+falloff: 1.5
+
+# Named yogas with mundane / market lore. Each emits a boolean flag plus a
+# continuous orb-decayed strength.
+named_yogas:
+  - {name: GuruShukra,   pair: [Guru, Shukra],    angle: 0,   orb: 10, polarity:  0.9, label: "Guru-Shukra sambandha", reading: "expansion meets valuation - the classical wealth conjunction"}
+  - {name: GuruShani,    pair: [Guru, Shani],     angle: 0,   orb: 12, polarity: -0.5, label: "Mahasamyoga (Great Conjunction)", reading: "the ~20 year business-cycle anchor - structural regime reset"}
+  - {name: ShaniRahu,    pair: [Shani, Rahu],     angle: 0,   orb: 10, polarity: -0.95, label: "Shrapit yoga", reading: "contraction fused with speculation - panic and forced deleveraging"}
+  - {name: MangalaRahu,  pair: [Mangala, Rahu],   angle: 0,   orb: 9,  polarity: -0.9, label: "Angarak yoga", reading: "aggression amplified - crash volatility and violent gaps"}
+  - {name: ChandraRahu,  pair: [Chandra, Rahu],   angle: 0,   orb: 8,  polarity: -0.7, label: "Grahan yoga", reading: "the eclipsed mind - sentiment distorted, crowd irrational"}
+  - {name: ChandraKetu,  pair: [Chandra, Ketu],   angle: 0,   orb: 8,  polarity: -0.6, label: "Grahan yoga (Ketu)", reading: "sentiment severed - abrupt withdrawal of participation"}
+  - {name: GajaKesari,   pair: [Guru, Chandra],   kendra: true, polarity: 0.85, label: "Gajakesari yoga", reading: "Guru in kendra from Chandra - the elephant-lion combination, sustained bull structure"}
+  - {name: ShaniMangala, pair: [Shani, Mangala],  angle: 0,   orb: 8,  polarity: -0.85, label: "Shani-Mangala yuti", reading: "friction and obstruction - grinding, hostile tape"}
+  - {name: BudhaAditya,  pair: [Budha, Surya],    angle: 0,   orb: 10, polarity:  0.5, label: "Budhaditya yoga", reading: "intelligence with authority - efficient, well-informed price discovery"}
+
+# Graha Yuddha - planetary war, two non-luminary grahas within 1 degree.
+graha_yuddha_orb_deg: 1.0
+
+# Kemadruma: no graha (excluding Surya, Rahu, Ketu) in the 2nd or 12th from Chandra.
+# Mundane reading: the crowd is unsupported - a liquidity vacuum.
+kemadruma:
+  exclude: [Surya, Rahu, Ketu]
+  houses_checked: [2, 12]
+
+# Mundane bhava (house) meanings, counted from the natal Lagna of the index.
+# Used both as features and by the narrative engine.
+bhava_market_meaning:
+  1:  {label: "Lagna - the index itself",        bias:  0.3, note: "identity, overall vitality"}
+  2:  {label: "Dhana - accumulated wealth",      bias:  0.7, note: "reserves, book value, treasury"}
+  3:  {label: "Parakrama - initiative",          bias:  0.3, note: "effort, short trades, communication"}
+  4:  {label: "Sukha - the base",                bias:  0.2, note: "fundamentals, domestic stability"}
+  5:  {label: "Poorva Punya - speculation",      bias:  0.8, note: "the speculation house - derivatives and risk appetite"}
+  6:  {label: "Ari - debt and conflict",         bias: -0.5, note: "leverage, disputes, competition"}
+  7:  {label: "Yuvati - counterparty",           bias:  0.2, note: "trade, partners, foreign flows"}
+  8:  {label: "Randhra - crisis",                bias: -0.9, note: "sudden loss, derivatives blowups, black swans"}
+  9:  {label: "Dharma - fortune",                bias:  0.6, note: "policy tailwind, structural luck"}
+  10: {label: "Karma - performance",             bias:  0.5, note: "visible results, reputation, headline prints"}
+  11: {label: "Labha - gains",                   bias:  0.9, note: "the gains house - realised profit and inflows"}
+  12: {label: "Vyaya - loss",                    bias: -0.8, note: "outflows, write-offs, hidden expense"}
+
+# Chandrabala: transit Moon rashi counted from natal Moon rashi.
+chandrabala_favourable: [1, 3, 6, 7, 10, 11]
+
+# Sade Sati: Shani transiting the 12th, 1st or 2nd from natal Chandra.
+sade_sati:
+  houses: [12, 1, 2]
+  phase_names: {12: "Rising (Aroha)", 1: "Peak (Madhya)", 2: "Setting (Avaroha)"}
+kantaka_shani_houses: [4, 7, 10]
+ashtama_shani_house: 8
+
+# Hora lords in Chaldean order, used for the planetary hour at market open.
+hora_order: [Shani, Guru, Mangala, Surya, Shukra, Budha, Chandra]
+
+# Weekday lords (0 = Monday, matching pandas dayofweek)
+vara_lords: {0: Chandra, 1: Mangala, 2: Budha, 3: Guru, 4: Shukra, 5: Shani, 6: Surya}
+
+# Rahu Kaal as the ordinal eighth-part of the daylight span, by weekday.
+# (0 = Monday ... 6 = Sunday). Part index is 1-based within the 8 daylight parts.
+rahu_kaal_part: {0: 2, 1: 7, 2: 5, 3: 6, 4: 4, 5: 3, 6: 8}
+yamaganda_part:  {0: 4, 1: 3, 2: 2, 3: 1, 4: 7, 5: 6, 6: 5}
+gulika_part:     {0: 6, 1: 5, 2: 4, 3: 3, 4: 2, 5: 1, 6: 7}

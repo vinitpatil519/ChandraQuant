@@ -1,0 +1,105 @@
+# Bhinnashtakavarga - the classical Parashari bindu (benefic point) tables.
+#
+# For each of the seven grahas, eight contributors (the 7 grahas + the Lagna) each
+# donate a bindu to a specific set of houses counted FROM the contributor's own
+# natal rashi. Summing all seven charts gives the Sarvashtakavarga (SAV), a 0-56
+# score per rashi whose grand total across the zodiac is always 337.
+#
+# Usage in ChandraQuant: the SAV of the rashi currently occupied by each transiting
+# graha becomes a continuous per-ticker strength feature. High SAV under a transiting
+# benefic is a classical marker of a productive transit (Gochara).
+#
+# Verification invariants asserted in tests/test_ashtakavarga.py:
+#   Surya 48, Chandra 49, Mangala 39, Budha 54, Guru 56, Shukra 52, Shani 39
+#   grand total = 337
+
+expected_totals:
+  Surya: 48
+  Chandra: 49
+  Mangala: 39
+  Budha: 54
+  Guru: 56
+  Shukra: 52
+  Shani: 39
+grand_total: 337
+
+contributors: [Surya, Chandra, Mangala, Budha, Guru, Shukra, Shani, Lagna]
+
+tables:
+  Surya:
+    Surya:   [1, 2, 4, 7, 8, 9, 10, 11]
+    Chandra: [3, 6, 10, 11]
+    Mangala: [1, 2, 4, 7, 8, 9, 10, 11]
+    Budha:   [3, 5, 6, 9, 10, 11, 12]
+    Guru:    [5, 6, 9, 11]
+    Shukra:  [6, 7, 12]
+    Shani:   [1, 2, 4, 7, 8, 9, 10, 11]
+    Lagna:   [3, 4, 6, 10, 11, 12]
+
+  Chandra:
+    Surya:   [3, 6, 7, 8, 10, 11]
+    Chandra: [1, 3, 6, 7, 10, 11]
+    Mangala: [2, 3, 5, 6, 9, 10, 11]
+    Budha:   [1, 3, 4, 5, 7, 8, 10, 11]
+    Guru:    [1, 4, 7, 8, 10, 11, 12]
+    Shukra:  [3, 4, 5, 7, 9, 10, 11]
+    Shani:   [3, 5, 6, 11]
+    Lagna:   [3, 6, 10, 11]
+
+  Mangala:
+    Surya:   [3, 5, 6, 10, 11]
+    Chandra: [3, 6, 11]
+    Mangala: [1, 2, 4, 7, 8, 10, 11]
+    Budha:   [3, 5, 6, 11]
+    Guru:    [6, 10, 11, 12]
+    Shukra:  [6, 8, 11, 12]
+    Shani:   [1, 4, 7, 8, 9, 10, 11]
+    Lagna:   [1, 3, 6, 10, 11]
+
+  Budha:
+    Surya:   [5, 6, 9, 11, 12]
+    Chandra: [2, 4, 6, 8, 10, 11]
+    Mangala: [1, 2, 4, 7, 8, 9, 10, 11]
+    Budha:   [1, 3, 5, 6, 9, 10, 11, 12]
+    Guru:    [6, 8, 11, 12]
+    Shukra:  [1, 2, 3, 4, 5, 8, 9, 11]
+    Shani:   [1, 2, 4, 7, 8, 9, 10, 11]
+    Lagna:   [1, 2, 4, 6, 8, 10, 11]
+
+  Guru:
+    Surya:   [1, 2, 3, 4, 7, 8, 9, 10, 11]
+    Chandra: [2, 5, 7, 9, 11]
+    Mangala: [1, 2, 4, 7, 8, 10, 11]
+    Budha:   [1, 2, 4, 5, 6, 9, 10, 11]
+    Guru:    [1, 2, 3, 4, 7, 8, 10, 11]
+    Shukra:  [2, 5, 6, 9, 10, 11]
+    Shani:   [3, 5, 6, 12]
+    Lagna:   [1, 2, 4, 5, 6, 7, 9, 10, 11]
+
+  Shukra:
+    Surya:   [8, 11, 12]
+    Chandra: [1, 2, 3, 4, 5, 8, 9, 11, 12]
+    Mangala: [3, 4, 6, 9, 11, 12]
+    Budha:   [3, 5, 6, 9, 11]
+    Guru:    [5, 8, 9, 10, 11]
+    Shukra:  [1, 2, 3, 4, 5, 8, 9, 10, 11]
+    Shani:   [3, 4, 5, 8, 9, 10, 11]
+    Lagna:   [1, 2, 3, 4, 5, 8, 9, 11]
+
+  Shani:
+    Surya:   [1, 2, 4, 7, 8, 10, 11]
+    Chandra: [3, 6, 11]
+    Mangala: [3, 5, 6, 10, 11, 12]
+    Budha:   [6, 8, 9, 10, 11, 12]
+    Guru:    [5, 6, 11, 12]
+    Shukra:  [6, 11, 12]
+    Shani:   [3, 5, 6, 11]
+    Lagna:   [1, 3, 4, 6, 10, 11]
+
+# SAV interpretation bands used by the narrative engine.
+sav_bands:
+  - {max: 24, label: "weak",       reading: "the rashi is structurally unsupported"}
+  - {max: 28, label: "below par",  reading: "mild structural weakness"}
+  - {max: 32, label: "average",    reading: "neutral structural support"}
+  - {max: 36, label: "strong",     reading: "well supported, transits here tend to deliver"}
+  - {max: 99, label: "very strong", reading: "maximum structural support - transits here are highly productive"}

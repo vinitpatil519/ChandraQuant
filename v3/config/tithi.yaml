@@ -1,0 +1,55 @@
+# 30 Tithis - each is 12 deg of elongation between Chandra and Surya.
+#   tithi_index = floor( ((moon_long - sun_long) mod 360) / 12 )   -> 0..29
+#   0..14  = Shukla Paksha (waxing),  15..29 = Krishna Paksha (waning)
+# five_fold: the classical Nanda/Bhadra/Jaya/Rikta/Purna classification by
+#   position-within-paksha (1,6,11 / 2,7,12 / 3,8,13 / 4,9,14 / 5,10,15).
+#   Rikta tithis are traditionally avoided for commercial undertakings (Vyapar).
+# market_bias: prior in [-1, 1] used as a weak feature and for narrative colour.
+
+five_fold_classes:
+  Nanda: {positions: [1, 6, 11],  meaning: "joyful - initiation favours risk-taking",     quality:  0.5}
+  Bhadra: {positions: [2, 7, 12], meaning: "auspicious - steady constructive progress",   quality:  0.7}
+  Jaya:  {positions: [3, 8, 13],  meaning: "victorious - contests resolve decisively",    quality:  0.6}
+  Rikta: {positions: [4, 9, 14],  meaning: "empty - classically barren for commerce",     quality: -0.8}
+  Purna: {positions: [5, 10, 15], meaning: "full - completion, culmination, exhaustion",  quality:  0.3}
+
+paksha:
+  Shukla: {display: "Shukla Paksha", meaning: "waxing - building light, growing conviction, greed", bias:  0.35}
+  Krishna: {display: "Krishna Paksha", meaning: "waning - fading light, rising fear and distribution", bias: -0.30}
+
+tithis:
+  - {index: 0,  num: 1,  paksha: Shukla,  name: Pratipada,    display: "Shukla Pratipada",   five_fold: Nanda, market_bias:  0.30, note: "new beginning after Amavasya"}
+  - {index: 1,  num: 2,  paksha: Shukla,  name: Dvitiya,      display: "Shukla Dvitiya",     five_fold: Bhadra, market_bias:  0.45, note: "early accumulation"}
+  - {index: 2,  num: 3,  paksha: Shukla,  name: Tritiya,      display: "Shukla Tritiya",     five_fold: Jaya,  market_bias:  0.50, note: "momentum establishes"}
+  - {index: 3,  num: 4,  paksha: Shukla,  name: Chaturthi,    display: "Shukla Chaturthi",   five_fold: Rikta, market_bias: -0.45, note: "Rikta - obstruction, avoid new commitments"}
+  - {index: 4,  num: 5,  paksha: Shukla,  name: Panchami,     display: "Shukla Panchami",    five_fold: Purna, market_bias:  0.40, note: "wealth tithi, favourable"}
+  - {index: 5,  num: 6,  paksha: Shukla,  name: Shashthi,     display: "Shukla Shashthi",    five_fold: Nanda, market_bias:  0.35, note: "energetic continuation"}
+  - {index: 6,  num: 7,  paksha: Shukla,  name: Saptami,      display: "Shukla Saptami",     five_fold: Bhadra, market_bias:  0.50, note: "strong constructive phase"}
+  - {index: 7,  num: 8,  paksha: Shukla,  name: Ashtami,      display: "Shukla Ashtami",     five_fold: Jaya,  market_bias: -0.20, note: "half-moon tension, direction contested"}
+  - {index: 8,  num: 9,  paksha: Shukla,  name: Navami,       display: "Shukla Navami",      five_fold: Rikta, market_bias: -0.50, note: "Rikta - barren, high failure rate"}
+  - {index: 9,  num: 10, paksha: Shukla,  name: Dashami,      display: "Shukla Dashami",     five_fold: Purna, market_bias:  0.45, note: "consolidated advance"}
+  - {index: 10, num: 11, paksha: Shukla,  name: Ekadashi,     display: "Shukla Ekadashi",    five_fold: Nanda, market_bias:  0.40, note: "restraint and clarity"}
+  - {index: 11, num: 12, paksha: Shukla,  name: Dvadashi,     display: "Shukla Dvadashi",    five_fold: Bhadra, market_bias:  0.35, note: "completion of the waxing drive"}
+  - {index: 12, num: 13, paksha: Shukla,  name: Trayodashi,   display: "Shukla Trayodashi",  five_fold: Jaya,  market_bias:  0.30, note: "final push before the peak"}
+  - {index: 13, num: 14, paksha: Shukla,  name: Chaturdashi,  display: "Shukla Chaturdashi", five_fold: Rikta, market_bias: -0.55, note: "Rikta at maximum light - exhaustion risk"}
+  - {index: 14, num: 15, paksha: Shukla,  name: Purnima,      display: "Purnima",            five_fold: Purna, market_bias: -0.15, note: "full moon - peak emotion, classical reversal window"}
+  - {index: 15, num: 1,  paksha: Krishna, name: Pratipada,    display: "Krishna Pratipada",  five_fold: Nanda, market_bias: -0.20, note: "light begins to fade"}
+  - {index: 16, num: 2,  paksha: Krishna, name: Dvitiya,      display: "Krishna Dvitiya",    five_fold: Bhadra, market_bias: -0.10, note: "orderly distribution"}
+  - {index: 17, num: 3,  paksha: Krishna, name: Tritiya,      display: "Krishna Tritiya",    five_fold: Jaya,  market_bias: -0.15, note: "sellers gain the upper hand"}
+  - {index: 18, num: 4,  paksha: Krishna, name: Chaturthi,    display: "Krishna Chaturthi",  five_fold: Rikta, market_bias: -0.60, note: "Rikta in the waning half - doubly adverse"}
+  - {index: 19, num: 5,  paksha: Krishna, name: Panchami,     display: "Krishna Panchami",   five_fold: Purna, market_bias: -0.05, note: "temporary stabilisation"}
+  - {index: 20, num: 6,  paksha: Krishna, name: Shashthi,     display: "Krishna Shashthi",   five_fold: Nanda, market_bias: -0.15, note: "renewed pressure"}
+  - {index: 21, num: 7,  paksha: Krishna, name: Saptami,      display: "Krishna Saptami",    five_fold: Bhadra, market_bias:  0.05, note: "relief bounce possible"}
+  - {index: 22, num: 8,  paksha: Krishna, name: Ashtami,      display: "Krishna Ashtami",    five_fold: Jaya,  market_bias: -0.40, note: "half-moon in decline - sharp downside"}
+  - {index: 23, num: 9,  paksha: Krishna, name: Navami,       display: "Krishna Navami",     five_fold: Rikta, market_bias: -0.65, note: "Rikta - the weakest tithi for long exposure"}
+  - {index: 24, num: 10, paksha: Krishna, name: Dashami,      display: "Krishna Dashami",    five_fold: Purna, market_bias: -0.10, note: "decline matures"}
+  - {index: 25, num: 11, paksha: Krishna, name: Ekadashi,     display: "Krishna Ekadashi",   five_fold: Nanda, market_bias:  0.10, note: "withdrawal and reassessment"}
+  - {index: 26, num: 12, paksha: Krishna, name: Dvadashi,     display: "Krishna Dvadashi",   five_fold: Bhadra, market_bias:  0.15, note: "basing behaviour"}
+  - {index: 27, num: 13, paksha: Krishna, name: Trayodashi,   display: "Krishna Trayodashi", five_fold: Jaya,  market_bias:  0.20, note: "capitulation nears completion"}
+  - {index: 28, num: 14, paksha: Krishna, name: Chaturdashi,  display: "Krishna Chaturdashi",five_fold: Rikta, market_bias: -0.50, note: "Rikta before the dark moon - maximum uncertainty"}
+  - {index: 29, num: 15, paksha: Krishna, name: Amavasya,     display: "Amavasya",           five_fold: Purna, market_bias: -0.25, note: "new moon - void, classical turning point"}
+
+# Windows flagged as discrete events by astro/lunar.py
+special_windows:
+  purnima_orb_days: 2
+  amavasya_orb_days: 2
