@@ -94,7 +94,9 @@ def detect_eclipses(dates: pd.DatetimeIndex, positions: pd.DataFrame) -> pd.Data
 
     if not rows:
         return pd.DataFrame(columns=["kind", "moon_lat"])
-    out = pd.DataFrame(rows).drop_duplicates(subset=["date"]).set_index("date")
+    # Sorted: solar and lunar candidates are gathered separately, so the raw
+    # concatenation is not chronological and date slicing would fail on it.
+    out = pd.DataFrame(rows).drop_duplicates(subset=["date"]).sort_values("date").set_index("date")
     return out
 
 
