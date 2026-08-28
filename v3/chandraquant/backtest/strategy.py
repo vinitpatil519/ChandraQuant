@@ -40,10 +40,13 @@ from . import metrics as M
 @dataclass
 class StrategyParams:
     # --- trend definition -------------------------------------------------------
-    fast_span: int = 20
-    slow_span: int = 50
-    trend_span: int = 200
-    require_both: bool = False      # True = C>EMA200 AND fast>slow; False = OR
+    # Continuous, not binary. A step function throws away the difference between a
+    # market barely above its mean and one extended far past it, and it churns on every
+    # boundary crossing. Distance from the EMA in volatility units keeps both.
+    trend_span: int = 100
+    trend_k: float = 1.4            # slope of the trend response
+    trend_floor: float = 0.5        # exposure when trend strength is zero
+    trend_cap: float = 1.6
 
     # --- volatility targeting ---------------------------------------------------
     target_vol: float = 0.15
@@ -65,12 +68,16 @@ class StrategyParams:
 
 
 def trend_signal(close: pd.Series, p: StrategyParams) -> pd.Series:
-    fast = close.ewm(span=p.fast_span, adjust=False).mean()
-    slow = close.ewm(span=p.slow_span, adjust=False).mean()
-    long_trend = close.ewm(span=p.trend_span, adjust=False).mean()
-    a = close > long_trend
-    b = fast > slow
-    return (a & b) if p.require_both else (a | b)
+    """Continuous trend strength: distance above the EMA, measured in vol units.
+
+    Returns roughly `trend_floor` in a flat market, rising toward `trend_cap` as the
+    market extends above its own trend. This is the exact form scripts/optimize.py
+    tunes, so tuned parameters and live behaviour cannot drift apart.
+    """
+    ema = close.ewm(span=p.trend_span, adjust=False).mean()
+    scale = close.pct_change().rolling(60, min_periods=20).std() * np.sqrt(60)
+    z = ((close / ema - 1.0) / scale.replace(0.0, np.nan)).clip(-3, 3)
+    return (p.trend_floor + p.trend_k * z.clip(0, 3) / 3.0).clip(0, p.trend_cap)
 
 
 def vol_scalar(close: pd.Series, p: StrategyParams) -> pd.Series:
@@ -118,7 +125,7 @@ def build_position(
 ) -> pd.DataFrame:
     """Target position per day, and its components (for the dashboard breakdown)."""
     close = prices["Close"]
-    trend = trend_signal(close, p).astype(float)
+    trend = trend_signal(close, p).astype(float).fillna(p.trend_floor)
     vol = vol_scalar(close, p)
     astro_s = astro_scalar(astro, p, score, edge)
 
