@@ -6,6 +6,25 @@
 
 ![Project Thumbnail](assets/ChandraQuant-Image.png)
 
+---
+
+> ### ➜ Looking for the latest version? **[ChandraQuant v3 — Kāla-Chakra Alpha Engine](v3/)**
+>
+> A complete rewrite that lives in [`v3/`](v3/). It fixes the architectural defect in this
+> version — the astro features here are functions of calendar date alone, so all three
+> tickers receive identical astro vectors — by casting a **mundane natal chart per index**
+> and expressing every celestial quantity as a transit relative to it.
+>
+> **831 astronomical features · a terminal app (`chandraquant`) · Pine v6 scripts that
+> compute planetary positions live on the chart · 60 tests verified against the NASA
+> eclipse catalogue.**
+>
+> · [Setup guide](v3/SETUP.md) &nbsp;·&nbsp; [Full README](v3/README.md) &nbsp;·&nbsp;
+> [Methodology & limitations](v3/docs/METHODOLOGY.md) &nbsp;·&nbsp;
+> [Build log](v3/CLAUDE.md)
+
+---
+
 ## Table of Contents
 
 - [Introduction](#introduction)
