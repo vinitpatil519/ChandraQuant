@@ -10,6 +10,8 @@ readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Vinit Patil" }]
 keywords = ["quantitative-finance", "jyotisha", "astronomy", "regime-detection", "nifty"]
+license = "MIT"
+license-files = ["LICENSE"]
 
 # Only what is actually imported. The browser dashboard uses the standard library's
 # http.server and inline SVG, so it needs no web framework or plotting stack.

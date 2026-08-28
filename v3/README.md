@@ -209,6 +209,10 @@ would have made the work worth less, not more.
 
 ---
 
+## License
+
+MIT — see [LICENSE](LICENSE). Use it, fork it, build on it.
+
 ## Stack
 
 Python 3.13 · Skyfield + JPL DE440s · pandas / NumPy / scikit-learn · LightGBM ·
