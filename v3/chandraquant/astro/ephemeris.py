@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import functools
 import hashlib
+import sys
 from datetime import datetime, time as dtime
 
 import numpy as np
@@ -58,7 +59,21 @@ def _loader() -> Loader:
 
 @functools.lru_cache(maxsize=1)
 def _kernel():
-    """The DE440s kernel. Downloaded on first use (~32 MB, covers 1849-2150)."""
+    """The DE440s kernel. Downloaded on first use (~32 MB, covers 1849-2150).
+
+    The first call on a fresh checkout fetches the ephemeris from NASA, which can take
+    anywhere from thirty seconds to several minutes depending on the link. Skyfield is
+    silent by default, so without this notice the app looks hung on its very first run -
+    the worst possible first impression. Announce it, and show Skyfield's progress bar.
+    """
+    path = EPHEM_DIR / EPHEM_FILE
+    if not path.exists():
+        print(
+            f"\n  First run: downloading the NASA JPL {EPHEM_FILE} ephemeris (~32 MB).\n"
+            f"  This happens once. Everything afterwards runs offline.\n",
+            file=sys.stderr,
+        )
+        return Loader(str(EPHEM_DIR), verbose=True)(EPHEM_FILE)
     return _loader()(EPHEM_FILE)
 
 

@@ -120,11 +120,23 @@ BANKNIFTY  live      4664 bars  2007-09-17 to 2026-08-28  -> data/snapshot/BANKN
 ...
 ```
 
-The first run takes a minute or two because it computes 831 astronomical features for every
-trading day since 2007. Results are cached, so it is instant afterwards.
+The first run takes **a few minutes**, and most of that is the 32 MB ephemeris download — on
+a slow link it can be considerably longer, so let it finish. You will see a progress bar for
+the download, then it computes 831 astronomical features for every trading day since 2007
+(about 4,650 per ticker). All of it is cached under `data/cache/`, so every subsequent run
+starts in a couple of seconds.
 
-> **Behind a firewall, or Yahoo blocked?** Skip this step. A snapshot is committed to the
-> repository, so the app still works — the header will read `○ cached` instead of `● live`.
+Trained models ship with the repository, so the dashboard is ready as soon as this finishes.
+If you ever want to retrain from scratch, run `python scripts/train.py`.
+
+> **This step needs internet, and it is the only one that does.** The ephemeris download in
+> particular is not optional — without `de440s.bsp` there are no planetary positions and
+> nothing else can run. Afterwards the app is fully offline.
+>
+> **If Yahoo is blocked but you have general internet**, the market-data pull will fail and
+> fall back to the snapshot committed in the repository; the ephemeris still downloads and
+> everything works. The dashboard header then reads `○ cached` rather than `● live`, which
+> is the app telling you the truth about where its data came from.
 
 ---
 
