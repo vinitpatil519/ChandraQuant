@@ -18,8 +18,20 @@ env/
 outputs/
 figures/
 models/
+
+# ChandraQuant v3 ships its three trained models (~2 MB each) so a fresh clone can
+# render a dashboard immediately instead of training on first launch. The `models/`
+# rule above would otherwise swallow them, and a nested .gitignore cannot re-include
+# files whose parent directory git has already been told to skip.
+!v3/artifacts/models/
+!v3/artifacts/models/**
 data/
 *.bsp
+
+# v3's committed offline snapshot must survive the `data/` rule above - it is what
+# lets the app render without a network. Caches and the ephemeris stay excluded.
+!v3/data/snapshot/
+!v3/data/snapshot/**
 
 # OS/editor
 .DS_Store
