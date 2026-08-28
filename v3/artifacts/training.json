@@ -1,0 +1,29 @@
+{
+  "NIFTY": {
+    "rows": 3884,
+    "base_rate": 0.3540164778578785,
+    "auc_technical": 0.5128214790390957,
+    "auc_astro": 0.5024776260009421,
+    "auc_hybrid": 0.5142592122903004,
+    "auc_calibrated": 0.5241994275154898,
+    "model_path": "C:\\ChandraQuant\\artifacts\\models\\NIFTY_v3.joblib"
+  },
+  "BANKNIFTY": {
+    "rows": 3899,
+    "base_rate": 0.32751987689151063,
+    "auc_technical": 0.5167888482911,
+    "auc_astro": 0.5011599937162029,
+    "auc_hybrid": 0.514878621769773,
+    "auc_calibrated": 0.5243750996776269,
+    "model_path": "C:\\ChandraQuant\\artifacts\\models\\BANKNIFTY_v3.joblib"
+  },
+  "CNXIT": {
+    "rows": 3899,
+    "base_rate": 0.3200820723262375,
+    "auc_technical": 0.5347229274874503,
+    "auc_astro": 0.5084217735929354,
+    "auc_hybrid": 0.5315546745785334,
+    "auc_calibrated": 0.5388692825155481,
+    "model_path": "C:\\ChandraQuant\\artifacts\\models\\CNXIT_v3.joblib"
+  }
+}

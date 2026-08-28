@@ -213,3 +213,116 @@ layer by per-block selection rather than by blind pruning here.
 
 **Next:** the gated hybrid model - technical LightGBM, astro LightGBM, astro gate,
 isotonic calibration, purged walk-forward CV.
+
+### [2026-08-28 19:20] feat(models+backtest): gated hybrid, learned edges, vol-targeted strategy
+**Commit:** `b8193db`
+**Added:** `models/{splits,hybrid,astro_edge}.py`, `backtest/{engine,metrics,strategy}.py`, `scripts/optimize.py`
+
+**What:** Purged walk-forward CV (6 folds, 5-bar purge + 5-bar embargo); technical and
+astro LightGBM blocks under an astro gate; event-driven and vectorised backtesters.
+
+**THE CENTRAL NEGATIVE RESULT.** The hand-assigned `market_bias` values I wrote into the
+config YAMLs - faithful to the classical texts, Pushya +0.60, Mula -0.55 - are not merely
+uninformative, they are **harmful**. Filtering NIFTY exposure on `ASTRO_SCORE > 0` built
+from those priors cut CAGR from **9.2% to 0.1%**. Reading a Sanskrit adjective and guessing
+a sign does not produce alpha.
+
+**The fix:** `astro_edge.py` measures each celestial state's conditional edge from training
+data with empirical-Bayes shrinkage (k=60 pseudo-observations) instead of asserting it.
+Astro block AUC improved 0.4912 -> 0.5025. On a 60/40 holdout `ASTRO_EDGE` alone reached
+**0.5274, beating the technical block's 0.5128**, with high-edge days at 37.9% Vriddhi vs
+32.4% low-edge. **But across six walk-forward folds the sign flips** - the conditional
+edges are not stationary. Recorded rather than buried.
+
+**Threshold bug found and fixed:** entry thresholds were absolute probabilities, but after
+isotonic calibration to a ~35% base rate a 0.55 cut fires on 0.1% of days. Switched to
+causal expanding percentiles - scale-free and survives recalibration.
+
+**Strategy design, arrived at empirically:** long-only daily index systems cannot beat
+buy-and-hold on return. The lever that works is **volatility targeting**. The classical
+abstention gates (Vishti, eclipse, Chandrashtama) cost Sharpe 0.60 -> 0.47, so per the
+user's decision astro became a display layer and position sizing is trend + vol targeting.
+
+**Bug caught:** `strategy.trend_signal` used a binary gate while `optimize.py` tuned a
+continuous one, so CNXIT's tuned parameters were applied to a different formula (Sharpe
+0.49 vs the 0.70 the optimiser found). Aligned; they now share one definition.
+
+---
+
+### [2026-08-28 19:50] feat(cli+tui+explain): the `chandraquant` app
+**Commit:** `0c50225`, `7d1e4e0`
+**Added:** `cli/{app,picker,splash}.py`, `tui/{dashboard,widgets}.py`, `explain/{narrative,lexicon}.py`, `inference.py`
+
+**What:** Animated Kala-Chakra splash, arrow-key ticker picker with live status, and a Rich
+dashboard: verdict, panchanga, natal+dasha, navagraha table, composite meters, sparklines,
+narrative, forward calendar, backtest card. Deterministic template narrative (no LLM - must
+run offline and identically every time) over a 90-term Sanskrit glossary.
+
+**Design decision:** `inference.py` keeps **DETECTED regime** (nowcast from realised price,
+no model) strictly separate from **FORECAST P(Vriddhi)** (model output). Conflating them
+would be the easiest way to overstate what the system knows. An early narrative bug did
+exactly that - it printed "STHIRA, 37% confidence" where 37% was P(Vriddhi). Fixed.
+
+---
+
+### [2026-08-28 20:30] feat(pine+tests): Meeus astronomy in Pine, 60-test suite
+**Commit:** `8ab4def`
+**Added:** `pine/ChandraQuant_{KalaChakra,Strategy}.pine`, `chandraquant/pine/emit.py`, `tests/test_{astro,pipeline}.py`
+
+**What:** Pine v6 scripts computing Sun and Moon ecliptic longitudes natively from Meeus
+periodic series (27 lunar terms, 12 latitude terms), Lahiri sidereal. No ephemeris file,
+no expiry, any bar any date.
+
+**Verified against Skyfield/DE440s, 1,253 samples 2007-2030:**
+| | max error | classification agreement |
+|---|---|---|
+| Surya | 0.0095 deg | nakshatra / tithi / rashi **100%** |
+| Chandra | 0.0236 deg | **100%** |
+
+Slow grahas use an embedded table. **Quarterly nodes gave 3.2 deg error on Guru** because
+its retrograde loops are cut straight across; switched to monthly nodes - now under 0.4 deg.
+
+**Pine strategy honesty note.** High-win-rate configurations were tested and rejected:
+a 0.8-ATR target gives **84.7% win rate at profit factor 0.98 and negative CAGR**. That is
+exactly the shape of v1's advertised 92.6% win rate (738 wins at +0.46%, 57 losses at
+-5.33% - profit factor 1.12). TradingView prints Net Profit beside Win Rate, so that
+screenshot collapses on sight. The default "Trend" mode ships instead: ~28-33% win rate,
+**profit factor 1.8-2.1, max drawdown -16.5% vs buy-and-hold -38.4%**. Swing mode is
+included but labelled.
+
+**60 tests, all passing.** Every astro assertion anchored to external ground truth:
+NASA eclipse catalogue (8/8 exact, zero spurious), Drik Panchang dates, Ashtakavarga
+totals, ascendant-equals-Sun-at-sunrise, retrograde stations, Great Conjunction. Plus a
+named regression test for the v1 ticker-identity bug and causality proofs.
+
+---
+
+### [2026-08-28 21:00] docs+web: README, methodology, browser dashboard
+**Commit:** _pending_
+**Added:** `README.md`, `docs/METHODOLOGY.md`, `chandraquant/web/server.py`, `scripts/{refresh_data,train,validate}.py`
+
+**Final measured results** (2010-01-04 to 2026-08-28, 5bps/side, next-bar execution):
+
+| | NIFTY | BANKNIFTY | CNX IT |
+|---|---|---|---|
+| CAGR | 8.35% (B&H 9.63%) | 8.49% (11.70%) | **15.06%** (10.57%) |
+| Sharpe | 0.66 (0.66) | 0.66 (0.61) | 0.68 (0.59) |
+| Max DD | **-21.6%** (-38.4%) | **-22.3%** (-47.9%) | -40.2% (-44.0%) |
+| **Calmar** | **0.387** (0.251) | **0.380** (0.245) | **0.375** (0.240) |
+
+**Headline: Calmar +54% to +56% across all three indices, drawdown nearly halved on two.**
+
+**Validation battery** (`artifacts/validation.json`): astro ablation deltas +0.0014 /
+-0.0019 / -0.0032; permutation p = 0.500 / 0.125 / 0.075 - none significant. **Recorded as
+found.** The one place astro shows up is the COVID window, where the astro-only block beat
+technical on BANKNIFTY (AUC 0.719 vs 0.611) and CNXIT (0.647 vs 0.489) - the original
+paper's "crisis alpha" hypothesis, on 80-100 observations, flagged as a hypothesis not a
+result.
+
+**Corrections to the v1 documents, both recorded in METHODOLOGY.md:**
+1. Yahoo serves these tickers only from 2007-09-17, not 1996. The claimed "15,507
+   observations spanning 1996-2026" is not obtainable from the stated source.
+2. `ML_ProjectReport.pdf` contradicts itself: SS7.2 reports Hybrid AUC 0.5094, SS9.4 reports
+   0.9964. v3 produces one reproducible number (0.5143 on NIFTY).
+
+**Status: complete.** All 12 planned phases delivered.
