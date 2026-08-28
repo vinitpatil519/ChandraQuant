@@ -178,3 +178,38 @@ CNXIT in **Ati-Mitra** (+1.0). ASTRO_SCORE +0.231 / -0.312 / +0.281.
   deferred to the model phase rather than pruned blindly here.
 
 **Next:** data layer (`data/loaders.py`) and the technical feature block.
+
+### [2026-08-28 18:35] feat(data+features): loaders, 68 technical features, 4-state labels
+**Commit:** _pending_
+**Added:** `chandraquant/data/loaders.py`, `chandraquant/features/{technical,dataset}.py`, `chandraquant/labels/regime.py`, `data/snapshot/*.parquet`
+
+**What:**
+- `loaders.py` - yfinance with an 8s hard timeout and silent fallback to the committed
+  snapshot. Returns a `DataStatus` so the UI reports `live` / `cached` honestly.
+- `technical.py` - 68 causal features (v1's 31 plus realised-vol ratios, Donchian
+  position, ADX, drawdown state, gap/candle shape, OBV slope, streaks).
+- `regime.py` - four-state Vriddhi / Sthira / Kshaya / Kshobha labels, vol-scaled mu.
+- `dataset.py` - the join, with an explicit astro/technical column split for ablation.
+
+**Verified:**
+- `technical.assert_causal` passes: recomputing on truncated history reproduces the
+  tail exactly, so no feature peeks forward. Run as part of dataset build.
+- Live pull succeeded for all three tickers; snapshots written for offline demo.
+- Rows: NIFTY 4649, BANKNIFTY 4664, CNXIT 4664, all 2007-09-17 to 2026-08-28.
+- Feature counts: 899-900 raw (831 astro + 68 technical); 582 after `prune_features`
+  drops empty, constant and >0.995-correlated columns (520 astro + 62 technical).
+
+**Base rates after the Kshobha fix** (H=5): Vriddhi 0.354 / Sthira 0.289 / Kshaya 0.252
+/ Kshobha 0.104 on NIFTY, similar on the others.
+
+**Decision - Kshobha threshold is ROLLING, not expanding.** With an expanding quantile
+the 2008 GFC dominates the threshold permanently and Kshobha collapses to 3.8% of rows,
+concentrated in 2008. A 500-day rolling quantile restores the intended ~11% and makes
+the label mean "turbulent relative to the current regime", which is the useful reading.
+Still strictly causal.
+
+**Open item:** 582 features against ~4,600 rows is a high ratio. Handled at the model
+layer by per-block selection rather than by blind pruning here.
+
+**Next:** the gated hybrid model - technical LightGBM, astro LightGBM, astro gate,
+isotonic calibration, purged walk-forward CV.
